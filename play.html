@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    #div {
+      width: 10px;
+      height: 10px;
+      background: red;
+      border-radius: 5px;
+      position: absolute;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="main">
+    <div id="body" class="light">
+      <div id="content" class="show">
+
+        <div class="demo">
+          <div class="width_limit">
+            <div style="width:100%;height:700px; background-color:#eee;">
+
+
+              <button style="margin-left:90%;margin-top:40px" class="btn">+</button>
+              <button style="margin-left:90%;margin-top:40px" class="btn">+</button>
+              <button style="margin-left:90%;margin-top:40px" class="btn">+</button>
+              <button style="margin-left:90%;margin-top:40px" class="btn">+</button>
+
+            </div>
+          </div>
+          <div id="cart" style="bottom:0;height:30px;width:100%;background-color:red"><span>加入购物车</span></div>
+          <div id="div"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</body>
+<script src="parabola.js"></script>
+<script>
+  // 元素以及其他一些变量
+var eleFlyElement = document.querySelector("#div"), eleShopCart = document.querySelector("span");
+var numberItem = 0;
+// 抛物线运动
+var myParabola = funParabola(eleFlyElement, eleShopCart, {
+  speed: 400,
+  curvature: 0.001,
+  complete: function () {
+    eleFlyElement.style.visibility = "hidden";
+  }
+});
+// 绑定点击事件
+if (eleFlyElement && eleShopCart) {
+  [].slice.call(document.getElementsByClassName("btn")).forEach(function (button) {
+    button.addEventListener("click", function (event) {
+      // 滚动大小
+      var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft || 0,
+        scrollTop = document.documentElement.scrollTop || document.body.scrollTop || 0;
+        console.log(scrollLeft+"======"+scrollTop);
+
+      eleFlyElement.style.left = event.clientX + scrollLeft + "px";
+      eleFlyElement.style.top = event.clientY + scrollTop + "px";
+      eleFlyElement.style.visibility = "visible";
+			
+      // 需要重定位
+      myParabola.position().move();
+    });
+  });
+}
+
+</script>
+
+</html>
